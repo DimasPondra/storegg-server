@@ -45,6 +45,32 @@
                                     <form action="/nominal/edit/<%= nominal._id %>?_method=PUT" method="post">
                                         <div class="card-body">
                                             <div class="form-group">
+                                                <label>Coin Name</label>
+                                                <select
+                                                    name="coinName"
+                                                    class="form-control select2"
+                                                    style="width: 100%"
+                                                    required
+                                                >
+                                                    <option selected="selected">Pilih Coin</option>
+                                                    <option value="Gold"
+                                                    <% if (nominal.coinName === "Gold") { %>
+                                                    selected
+                                                    <% } %>
+                                                    >Gold</option>
+                                                    <option value="Diamond"
+                                                    <% if (nominal.coinName === "Diamond") { %>
+                                                    selected
+                                                    <% } %>
+                                                    >Diamond</option>
+                                                    <option value="Jewel"
+                                                    <% if (nominal.coinName === "Jewel") { %>
+                                                    selected
+                                                    <% } %>
+                                                    >Jewel</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
                                                 <label for="coinQuantity">Coin Quantity</label>
                                                 <input
                                                     type="number"
@@ -53,17 +79,6 @@
                                                     id="coinQuantity"
                                                     placeholder="coin quantity"
                                                     value="<%= nominal.coinQuantity %>"
-                                                />
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="coinName">Coin Name</label>
-                                                <input
-                                                    type="text"
-                                                    class="form-control"
-                                                    name="coinName"
-                                                    id="coinName"
-                                                    placeholder="coin name"
-                                                    value="<%= nominal.coinName %>"
                                                 />
                                             </div>
                                             <div class="form-group">

@@ -45,6 +45,20 @@
                                     <form action="/nominal/create" method="post">
                                         <div class="card-body">
                                             <div class="form-group">
+                                                <label>Coin Name</label>
+                                                <select
+                                                    name="coinName"
+                                                    class="form-control select2"
+                                                    style="width: 100%"
+                                                    required
+                                                >
+                                                    <option selected="selected">Pilih Coin</option>
+                                                    <option value="Gold">Gold</option>
+                                                    <option value="Diamond">Diamond</option>
+                                                    <option value="Jewel">Jewel</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
                                                 <label for="coinQuantity">Coin Quantity</label>
                                                 <input
                                                     type="number"
@@ -52,16 +66,6 @@
                                                     name="coinQuantity"
                                                     id="coinQuantity"
                                                     placeholder="coin quantity"
-                                                />
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="coinName">Coin Name</label>
-                                                <input
-                                                    type="text"
-                                                    class="form-control"
-                                                    name="coinName"
-                                                    id="coinName"
-                                                    placeholder="coin name"
                                                 />
                                             </div>
                                             <div class="form-group">
