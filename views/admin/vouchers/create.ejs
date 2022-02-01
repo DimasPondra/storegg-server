@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>AdminLTE 3 | Create - Voucher</title>
+
+        <%- include ../../partials/header.ejs %>
+    </head>
+    <body class="hold-transition sidebar-mini layout-fixed">
+        <div class="wrapper">
+            <%- include ../../partials/navbar.ejs %> <%- include ../../partials/sidebar.ejs %>
+
+            <!-- Content Wrapper. Contains page content -->
+            <div class="content-wrapper">
+                <!-- Content Header (Page header) -->
+                <section class="content-header">
+                    <div class="container-fluid">
+                        <div class="row mb-2">
+                            <div class="col-sm-6">
+                                <h1>Vouchers</h1>
+                            </div>
+                            <div class="col-sm-6">
+                                <ol class="breadcrumb float-sm-right">
+                                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                                    <li class="breadcrumb-item"><a href="/voucher">Vouchers</a></li>
+                                    <li class="breadcrumb-item active">Create</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.container-fluid -->
+                </section>
+
+                <!-- Main content -->
+                <section class="content">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Form Create Voucher</h3>
+                                    </div>
+                                    <!-- /.card-header -->
+                                    <form action="/voucher/create" method="post" enctype="multipart/form-data">
+                                        <div class="card-body">
+                                            <div class="form-group">
+                                                <label for="name">Game Name</label>
+                                                <input
+                                                    type="text"
+                                                    class="form-control"
+                                                    name="name"
+                                                    id="name"
+                                                    placeholder="name"
+                                                />
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Category</label>
+                                                <select
+                                                    name="category"
+                                                    class="form-control select2"
+                                                    style="width: 100%"
+                                                    required
+                                                >
+                                                    <option selected="selected">Choose Category</option>
+                                                    <% categories.forEach( category => { %>
+                                                    <option value="<%= category._id %>"><%= category.name %></option>
+                                                    <% }) %>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Nominal</label>
+                                                <div class="select2-purple">
+                                                    <select
+                                                        name="nominals"
+                                                        class="form-control select2"
+                                                        style="width: 100%"
+                                                        multiple="multiple"
+                                                        data-placeholder="Choose Nominal"
+                                                        required
+                                                    >
+                                                        <% nominals.forEach( nominal => { %>
+                                                        <option value="<%= nominal._id %>">
+                                                            <%= nominal.coinName %> - <%= nominal.price %>
+                                                        </option>
+                                                        <% }) %>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="thumbnail">Image</label>
+                                                <input
+                                                    type="file"
+                                                    class="form-control"
+                                                    name="thumbnail"
+                                                    id="thumbnail"
+                                                    placeholder="thumbnail"
+                                                />
+                                                <br />
+                                                <img src="" id="preview" />
+                                            </div>
+                                        </div>
+                                        <!-- /.card-body -->
+                                        <div class="card-footer">
+                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <!-- /.card -->
+                            </div>
+                            <!-- /.col -->
+                        </div>
+                        <!-- /.row -->
+                    </div>
+                    <!-- /.container-fluid -->
+                </section>
+                <!-- /.content -->
+            </div>
+            <!-- /.content-wrapper -->
+
+            <%- include ../../partials/footer.ejs %>
+
+            <!-- Control Sidebar -->
+            <aside class="control-sidebar control-sidebar-dark">
+                <!-- Control sidebar content goes here -->
+            </aside>
+            <!-- /.control-sidebar -->
+        </div>
+        <!-- ./wrapper -->
+
+        <%- include ../../partials/js.ejs %>
+
+        <script>
+            function readURL(input) {
+                if (input.files && input.files[0]) {
+                    const reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        $("#preview").attr("src", e.target.result);
+                        $("#preview").attr("width", "10%");
+                        $("#preview").attr("height", "10%");
+                    };
+
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+
+            $("#thumbnail").change(function () {
+                readURL(this);
+            });
+        </script>
+    </body>
+</html>

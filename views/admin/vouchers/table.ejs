@@ -1,0 +1,55 @@
+<table id="example2" class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>No.</th>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Nominal</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% for (let i = 0; i < vouchers.length; i++){ %>
+        <tr>
+            <td><%= i + 1 %></td>
+            <td><%= vouchers[i].name %></td>
+            <td><%= vouchers[i]?.category?.name ?? '-' %></td>
+            <td>
+                <% vouchers[i].nominals.forEach( nominal => { %>
+                <span class="badge badge-warning"> <%= nominal.coinName %> <%= nominal.coinQuantity %> </span>
+                <% }) %>
+            </td>
+            <td>
+                <% if (vouchers[i].status == 'Y') { %>
+                <span class="badge badge-success">Active</span>
+                <% } else { %>
+                <span class="badge badge-danger">Inactive</span>
+                <% } %>
+            </td>
+            <td>
+                <form action="" style="display: inline-block">
+                    <button type="submit" class="btn btn-sm btn-info">
+                        <i class="fas fa-folder mr-2"></i>
+                        <% if (vouchers[i].status == 'Y') { %> Inactive <% } else { %> Active <% } %>
+                    </button>
+                </form>
+                <form
+                    action="/nominal/delete/<%= vouchers[i]._id %>?_method=DELETE"
+                    method="post"
+                    style="display: inline-block"
+                >
+                    <a href="/nominal/edit/<%= vouchers[i]._id %>" class="btn btn-sm btn-warning">
+                        <i class="fas fa-pencil-alt mr-2"></i>
+                        Edit
+                    </a>
+                    <button type="submit" class="btn btn-sm btn-danger">
+                        <i class="fas fa-trash mr-2"></i>
+                        Delete
+                    </button>
+                </form>
+            </td>
+        </tr>
+        <% } %>
+    </tbody>
+</table>
