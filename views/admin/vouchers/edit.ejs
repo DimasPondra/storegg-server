@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>AdminLTE 3 | Create - Voucher</title>
+        <title>AdminLTE 3 | Edit - Voucher</title>
 
         <%- include ../../partials/header.ejs %>
     </head>
@@ -24,7 +24,7 @@
                                 <ol class="breadcrumb float-sm-right">
                                     <li class="breadcrumb-item"><a href="/">Home</a></li>
                                     <li class="breadcrumb-item"><a href="/voucher">Vouchers</a></li>
-                                    <li class="breadcrumb-item active">Create</li>
+                                    <li class="breadcrumb-item active">Edit</li>
                                 </ol>
                             </div>
                         </div>
@@ -39,10 +39,10 @@
                             <div class="col-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h3 class="card-title">Form Create Voucher</h3>
+                                        <h3 class="card-title">Form Edit Voucher "<%= voucher.name %>"</h3>
                                     </div>
                                     <!-- /.card-header -->
-                                    <form action="/voucher/create" method="post" enctype="multipart/form-data">
+                                    <form action="/voucher/edit/<%= voucher._id %>?_method=PUT" method="post" enctype="multipart/form-data">
                                         <div class="card-body">
                                             <div class="form-group">
                                                 <label for="name">Game Name</label>
@@ -52,6 +52,7 @@
                                                     name="name"
                                                     id="name"
                                                     placeholder="name"
+                                                    value="<%= voucher.name %>"
                                                 />
                                             </div>
                                             <div class="form-group">
@@ -64,7 +65,13 @@
                                                 >
                                                     <option selected="selected">Choose Category</option>
                                                     <% categories.forEach( category => { %>
-                                                    <option value="<%= category._id %>"><%= category.name %></option>
+                                                    <option value="<%= category._id %>"
+                                                        <% if (category._id.toString() === voucher?.category?._id.toString()) { %>
+                                                            selected
+                                                        <% } %>
+                                                    >
+                                                        <%= category.name %>
+                                                    </option>
                                                     <% }) %>
                                                 </select>
                                             </div>
@@ -80,7 +87,13 @@
                                                         required
                                                     >
                                                         <% nominals.forEach( nominal => { %>
-                                                        <option value="<%= nominal._id %>">
+                                                        <option value="<%= nominal._id %>"
+                                                            <% voucher.nominals.forEach(voucherNominal => { %>
+                                                                <% if (nominal._id.toString() === voucherNominal._id.toString()) { %>
+                                                                    selected
+                                                                <% } %>
+                                                            <% }) %>
+                                                        >
                                                             <%= nominal.coinName %> - <%= nominal.coinQuantity %>
                                                         </option>
                                                         <% }) %>
@@ -97,7 +110,7 @@
                                                     placeholder="thumbnail"
                                                 />
                                                 <br />
-                                                <img src="" id="preview" />
+                                                <img src="http://localhost:3000/uploads/<%= voucher.thumbnail %>" style="width: 10%; height: 10%;" id="preview" />
                                             </div>
                                         </div>
                                         <!-- /.card-body -->
