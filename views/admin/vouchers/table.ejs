@@ -28,7 +28,11 @@
                 <% } %>
             </td>
             <td>
-                <form action="" style="display: inline-block">
+                <form
+                    action="/voucher/status/<%= vouchers[i]._id %>?_method=PUT"
+                    method="post"
+                    style="display: inline-block"
+                >
                     <button type="submit" class="btn btn-sm btn-info">
                         <i class="fas fa-folder mr-2"></i>
                         <% if (vouchers[i].status == 'Y') { %> Inactive <% } else { %> Active <% } %>
