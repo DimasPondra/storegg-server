@@ -28,12 +28,26 @@
                 <% } %>
             </td>
             <td>
-                <form action="/payment/delete/<%= payments[i]._id %>?_method=DELETE" method="post">
-                    <a href="/payment/edit/<%= payments[i]._id %>" class="btn btn-warning">
+                <form
+                    action="/payment/status/<%= payments[i]._id %>?_method=PUT"
+                    method="post"
+                    style="display: inline-block"
+                >
+                    <button type="submit" class="btn btn-sm btn-info">
+                        <i class="fas fa-folder mr-2"></i>
+                        <% if (payments[i].status == 'Y') { %> Inactive <% } else { %> Active <% } %>
+                    </button>
+                </form>
+                <form
+                    action="/payment/delete/<%= payments[i]._id %>?_method=DELETE"
+                    method="post"
+                    style="display: inline-block"
+                >
+                    <a href="/payment/edit/<%= payments[i]._id %>" class="btn btn-sm btn-warning">
                         <i class="fas fa-pencil-alt mr-2"></i>
                         Edit
                     </a>
-                    <button type="submit" class="btn btn-danger">
+                    <button type="submit" class="btn btn-sm btn-danger">
                         <i class="fas fa-trash mr-2"></i>
                         Delete
                     </button>
