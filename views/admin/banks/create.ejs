@@ -55,17 +55,21 @@
                                                 />
                                             </div>
                                             <div class="form-group">
-                                                <label for="name">Bank Name</label>
-                                                <input
-                                                    type="text"
-                                                    class="form-control"
+                                                <label>Bank Name</label>
+                                                <select
                                                     name="bankName"
-                                                    id="bankName"
-                                                    placeholder="bank name"
-                                                />
+                                                    class="form-control select2"
+                                                    style="width: 100%"
+                                                    required
+                                                >
+                                                    <option selected="selected">Choose Bank</option>
+                                                    <option value="BCA">BCA</option>
+                                                    <option value="BNI">BNI</option>
+                                                    <option value="BRI">BRI</option>
+                                                </select>
                                             </div>
                                             <div class="form-group">
-                                                <label for="name">Account Number</label>
+                                                <label for="accountNumber">Account Number</label>
                                                 <input
                                                     type="text"
                                                     class="form-control"

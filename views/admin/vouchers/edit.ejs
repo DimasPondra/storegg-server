@@ -65,13 +65,13 @@
                                                 >
                                                     <option selected="selected">Choose Category</option>
                                                     <% categories.forEach( category => { %>
-                                                    <option value="<%= category._id %>"
-                                                        <% if (category._id.toString() === voucher?.category?._id.toString()) { %>
-                                                            selected
-                                                        <% } %>
-                                                    >
-                                                        <%= category.name %>
-                                                    </option>
+                                                        <option value="<%= category._id %>"
+                                                            <% if (category._id.toString() === voucher?.category?._id.toString()) { %>
+                                                                selected
+                                                            <% } %>
+                                                        >
+                                                            <%= category.name %>
+                                                        </option>
                                                     <% }) %>
                                                 </select>
                                             </div>
@@ -87,15 +87,15 @@
                                                         required
                                                     >
                                                         <% nominals.forEach( nominal => { %>
-                                                        <option value="<%= nominal._id %>"
-                                                            <% voucher.nominals.forEach(voucherNominal => { %>
-                                                                <% if (nominal._id.toString() === voucherNominal._id.toString()) { %>
-                                                                    selected
-                                                                <% } %>
-                                                            <% }) %>
-                                                        >
-                                                            <%= nominal.coinName %> - <%= nominal.coinQuantity %>
-                                                        </option>
+                                                            <option value="<%= nominal._id %>"
+                                                                <% voucher.nominals.forEach(voucherNominal => { %>
+                                                                    <% if (nominal._id.toString() === voucherNominal._id.toString()) { %>
+                                                                        selected
+                                                                    <% } %>
+                                                                <% }) %>
+                                                            >
+                                                                <%= nominal.coinName %> - <%= nominal.coinQuantity %>
+                                                            </option>
                                                         <% }) %>
                                                     </select>
                                                 </div>
