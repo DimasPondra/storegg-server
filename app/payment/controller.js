@@ -13,6 +13,8 @@ module.exports = {
             res.render("admin/payments/view_payment", {
                 payments,
                 alert,
+                name: req.session.user.name,
+                active: "payment",
             });
         } catch (err) {
             req.flash("alertMessage", `${err.message}`);
@@ -27,6 +29,8 @@ module.exports = {
 
             res.render("admin/payments/create", {
                 banks,
+                name: req.session.user.name,
+                active: "payment",
             });
         } catch (err) {
             req.flash("alertMessage", `${err.message}`);
@@ -63,6 +67,8 @@ module.exports = {
             res.render("admin/payments/edit", {
                 payment,
                 banks,
+                name: req.session.user.name,
+                active: "payment",
             });
         } catch (err) {
             req.flash("alertMessage", `${err.message}`);

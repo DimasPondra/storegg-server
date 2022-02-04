@@ -12,6 +12,8 @@ module.exports = {
             res.render("admin/nominals/view_nominal", {
                 nominals,
                 alert,
+                name: req.session.user.name,
+                active: "nominal",
             });
         } catch (err) {
             req.flash("alertMessage", `${err.message}`);
@@ -22,7 +24,10 @@ module.exports = {
 
     viewCreate: async (req, res) => {
         try {
-            res.render("admin/nominals/create");
+            res.render("admin/nominals/create", {
+                name: req.session.user.name,
+                active: "nominal",
+            });
         } catch (err) {
             req.flash("alertMessage", `${err.message}`);
             req.flash("alertStatus", "danger");
@@ -55,6 +60,8 @@ module.exports = {
 
             res.render("admin/nominals/edit", {
                 nominal,
+                name: req.session.user.name,
+                active: "nominal",
             });
         } catch (err) {
             req.flash("alertMessage", `${err.message}`);

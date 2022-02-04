@@ -12,6 +12,8 @@ module.exports = {
             res.render("admin/categories/view_category", {
                 categories,
                 alert,
+                name: req.session.user.name,
+                active: "category",
             });
         } catch (err) {
             req.flash("alertMessage", `${err.message}`);
@@ -22,7 +24,10 @@ module.exports = {
 
     viewCreate: async (req, res) => {
         try {
-            res.render("admin/categories/create");
+            res.render("admin/categories/create", {
+                name: req.session.user.name,
+                active: "category",
+            });
         } catch (err) {
             req.flash("alertMessage", `${err.message}`);
             req.flash("alertStatus", "danger");
@@ -55,6 +60,8 @@ module.exports = {
 
             res.render("admin/categories/edit", {
                 category,
+                name: req.session.user.name,
+                active: "category",
             });
         } catch (err) {
             req.flash("alertMessage", `${err.message}`);
