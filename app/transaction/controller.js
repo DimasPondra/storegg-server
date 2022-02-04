@@ -1,5 +1,4 @@
 const Transaction = require("./model");
-const Player = require("../player/model");
 
 module.exports = {
     index: async (req, res) => {
