@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const bcrypt = require("bcryptjs");
+const HASH_ROUND = 12;
 
 let playerSchema = mongoose.Schema(
     {
@@ -15,9 +17,6 @@ let playerSchema = mongoose.Schema(
             maxLength: [255, "max 255 characters"],
         },
         avatar: {
-            type: String,
-        },
-        fileName: {
             type: String,
         },
         email: {
@@ -53,5 +52,23 @@ let playerSchema = mongoose.Schema(
     },
     { timestamps: true }
 );
+
+playerSchema.path("email").validate(
+    async function (value) {
+        try {
+            const count = await this.model("Player").countDocuments({ email: value });
+
+            return !count;
+        } catch (err) {
+            throw err;
+        }
+    },
+    (attr) => `${attr.value} is registered`
+);
+
+playerSchema.pre("save", function (next) {
+    this.password = bcrypt.hashSync(this.password, HASH_ROUND);
+    next();
+});
 
 module.exports = mongoose.model("Player", playerSchema);
