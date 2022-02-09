@@ -1,6 +1,10 @@
 const Player = require("./model");
 const Voucher = require("../voucher/model");
 const Category = require("../category/model");
+const Nominal = require("../nominal/model");
+const Payment = require("../payment/model");
+const Bank = require("../bank/model");
+const Transaction = require("../transaction/model");
 
 module.exports = {
     landingPage: async (req, res) => {
@@ -36,6 +40,72 @@ module.exports = {
             const categories = await Category.find().select("_id name");
 
             res.status(200).json({ data: categories });
+        } catch (err) {
+            res.status(500).json({ message: err.message || "Internal server error" });
+        }
+    },
+
+    checkout: async (req, res) => {
+        try {
+            const { accountUser, name, nominal, voucher, payment, bank } = req.body;
+
+            const res_voucher = await Voucher.findOne({ _id: voucher })
+                .select("_id name category thumbnail user")
+                .populate("category")
+                .populate("user");
+
+            if (!res_voucher) return res.status(404).json({ message: "voucher not found" });
+
+            const res_nominal = await Nominal.findOne({ _id: nominal });
+
+            if (!res_nominal) return res.status(404).json({ message: "nominal not found" });
+
+            const res_payment = await Payment.findOne({ _id: payment });
+
+            if (!res_payment) return res.status(404).json({ message: "payment not found" });
+
+            const res_bank = await Bank.findOne({ _id: bank });
+
+            if (!res_bank) return res.status(404).json({ message: "bank not found" });
+
+            let tax = (10 / 100) * res_nominal._doc.price;
+            let value = res_nominal._doc.price + tax;
+
+            const payload = {
+                name,
+                accountUser,
+                tax,
+                value,
+
+                historyVoucherTopup: {
+                    gameName: res_voucher._doc.name,
+                    category: res_voucher._doc.category.name,
+                    thumbnail: res_voucher._doc.thumbnail,
+                    coinName: res_nominal._doc.coinName,
+                    coinQuantity: res_nominal._doc.coinQuantity,
+                    price: res_nominal._doc.price,
+                },
+                historyPayment: {
+                    type: res_payment._doc.type,
+                    bankName: res_bank._doc.bankName,
+                    name: res_bank._doc.name,
+                    accountNumber: res_bank._doc.accountNumber,
+                },
+                historyUser: {
+                    name: res_voucher._doc.user.name,
+                    phoneNumber: res_voucher._doc.user.phoneNumber,
+                },
+
+                user: res_voucher._doc.user._id,
+                category: res_voucher._doc.category._id,
+                voucherTopup: res_voucher._doc._id,
+                player: req.player._id,
+            };
+
+            const transaction = new Transaction(payload);
+            await transaction.save();
+
+            res.status(200).json({ message: "successfully checkout item." });
         } catch (err) {
             res.status(500).json({ message: err.message || "Internal server error" });
         }
