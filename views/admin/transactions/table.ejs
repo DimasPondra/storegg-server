@@ -45,6 +45,7 @@
             </td>
             <td><%= transactions[i]?.player?.name ?? '-' %></td>
             <td>
+                <% if (transactions[i].status === 'pending') { %>
                 <form
                     action="/transaction/status/<%= transactions[i]._id %>?status=success&_method=PUT"
                     method="post"
@@ -65,6 +66,7 @@
                         Tolak
                     </button>
                 </form>
+                <% } %>
             </td>
         </tr>
         <% } %>
