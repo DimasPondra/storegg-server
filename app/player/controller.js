@@ -151,4 +151,18 @@ module.exports = {
             res.status(500).json({ message: err.message || "Internal server error" });
         }
     },
+
+    detailHistory: async (req, res) => {
+        try {
+            const { id } = req.params;
+
+            const history = await Transaction.findOne({ _id: id });
+
+            if (!history) res.status(404).json({ message: "history not found" });
+
+            res.status(200).json({ data: history });
+        } catch (err) {
+            res.status(500).json({ message: err.message || "Internal server error" });
+        }
+    },
 };
