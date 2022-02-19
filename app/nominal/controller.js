@@ -1,4 +1,5 @@
 const Nominal = require("./model");
+const { validationResult } = require("express-validator");
 
 module.exports = {
     index: async (req, res) => {
@@ -37,6 +38,16 @@ module.exports = {
 
     actionCreate: async (req, res) => {
         try {
+            const errors = validationResult(req);
+
+            if (!errors.isEmpty()) {
+                return res.render("admin/nominals/create", {
+                    name: req.session.user.name,
+                    active: "nominal",
+                    errors: errors.array(),
+                });
+            }
+
             const { coinName, coinQuantity, price } = req.body;
 
             let nominal = await Nominal({ coinName, coinQuantity, price });
@@ -73,6 +84,19 @@ module.exports = {
     actionEdit: async (req, res) => {
         try {
             const { id } = req.params;
+            const nominal = await Nominal.findOne({ _id: id });
+
+            const errors = validationResult(req);
+
+            if (!errors.isEmpty()) {
+                return res.render("admin/nominals/edit", {
+                    nominal,
+                    name: req.session.user.name,
+                    active: "nominal",
+                    errors: errors.array(),
+                });
+            }
+
             const { coinName, coinQuantity, price } = req.body;
 
             await Nominal.findOneAndUpdate({ _id: id }, { coinName, coinQuantity, price });
