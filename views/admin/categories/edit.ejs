@@ -42,10 +42,13 @@
                                         <h3 class="card-title">Form Edit Category "<%= category.name %>"</h3>
                                     </div>
                                     <!-- /.card-header -->
+
+                                    <%- include ../../partials/form_validation.ejs %>
+
                                     <form action="/category/edit/<%= category._id %>?_method=PUT" method="post">
                                         <div class="card-body">
                                             <div class="form-group">
-                                                <label for="name">Name</label>
+                                                <label for="name">Name <span class="text-danger">*</span></label>
                                                 <input
                                                     type="text"
                                                     class="form-control"

@@ -1,4 +1,5 @@
 const Category = require("./model");
+const { validationResult } = require("express-validator");
 
 module.exports = {
     index: async (req, res) => {
@@ -37,6 +38,16 @@ module.exports = {
 
     actionCreate: async (req, res) => {
         try {
+            const errors = validationResult(req);
+
+            if (!errors.isEmpty()) {
+                return res.render("admin/categories/create", {
+                    name: req.session.user.name,
+                    active: "category",
+                    errors: errors.array(),
+                });
+            }
+
             const { name } = req.body;
 
             let category = await Category({ name });
@@ -73,6 +84,19 @@ module.exports = {
     actionEdit: async (req, res) => {
         try {
             const { id } = req.params;
+            const category = await Category.findOne({ _id: id });
+
+            const errors = validationResult(req);
+
+            if (!errors.isEmpty()) {
+                return res.render("admin/categories/edit", {
+                    category,
+                    name: req.session.user.name,
+                    active: "category",
+                    errors: errors.array(),
+                });
+            }
+
             const { name } = req.body;
 
             await Category.findOneAndUpdate({ _id: id }, { name });
