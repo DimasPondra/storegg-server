@@ -4,6 +4,7 @@ const Nominal = require("../nominal/model");
 const path = require("path");
 const fs = require("fs");
 const config = require("../../config");
+const { validationResult } = require("express-validator");
 
 module.exports = {
     index: async (req, res) => {
@@ -47,6 +48,22 @@ module.exports = {
 
     actionCreate: async (req, res) => {
         try {
+            const categories = await Category.find();
+            const allNominals = await Nominal.find();
+
+            const errors = validationResult(req);
+
+            if (!errors.isEmpty()) {
+                return res.render("admin/vouchers/create", {
+                    categories,
+                    nominals: allNominals,
+                    name: req.session.user.name,
+                    active: "voucher",
+                    errors: errors.array(),
+                });
+            }
+
+            const user = req.session.user.id;
             const { name, category, nominals } = req.body;
 
             if (req.file) {
@@ -67,6 +84,7 @@ module.exports = {
                             category,
                             nominals,
                             thumbnail: filename,
+                            user,
                         });
 
                         await voucher.save();
@@ -86,6 +104,7 @@ module.exports = {
                     name,
                     category,
                     nominals,
+                    user,
                 });
 
                 await voucher.save();
@@ -126,7 +145,26 @@ module.exports = {
 
     actionEdit: async (req, res) => {
         try {
+            const categories = await Category.find();
+            const allNominals = await Nominal.find();
+
             const { id } = req.params;
+            const voucher = await Voucher.findOne({ _id: id }).populate("category").populate("nominals");
+
+            const errors = validationResult(req);
+
+            if (!errors.isEmpty()) {
+                return res.render("admin/vouchers/edit", {
+                    voucher,
+                    categories,
+                    nominals: allNominals,
+                    name: req.session.user.name,
+                    active: "voucher",
+                    errors: errors.array(),
+                });
+            }
+
+            const user = req.session.user.id;
             const { name, category, nominals } = req.body;
 
             if (req.file) {
@@ -157,6 +195,7 @@ module.exports = {
                                 category,
                                 nominals,
                                 thumbnail: filename,
+                                user,
                             }
                         );
 
@@ -177,6 +216,7 @@ module.exports = {
                         name,
                         category,
                         nominals,
+                        user,
                     }
                 );
 

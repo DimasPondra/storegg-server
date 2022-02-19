@@ -42,10 +42,13 @@
                                         <h3 class="card-title">Form Edit Voucher "<%= voucher.name %>"</h3>
                                     </div>
                                     <!-- /.card-header -->
+
+                                    <%- include('../../partials/form_validation.ejs') %>
+
                                     <form action="/voucher/edit/<%= voucher._id %>?_method=PUT" method="post" enctype="multipart/form-data">
                                         <div class="card-body">
                                             <div class="form-group">
-                                                <label for="name">Game Name</label>
+                                                <label for="name">Game Name <span class="text-danger">*</span></label>
                                                 <input
                                                     type="text"
                                                     class="form-control"
@@ -56,14 +59,14 @@
                                                 />
                                             </div>
                                             <div class="form-group">
-                                                <label>Category</label>
+                                                <label>Category <span class="text-danger">*</span></label>
                                                 <select
                                                     name="category"
                                                     class="form-control select2"
                                                     style="width: 100%"
                                                     required
                                                 >
-                                                    <option selected="selected">Choose Category</option>
+                                                    <option selected="selected" disabled>Choose Category</option>
                                                     <% categories.forEach( category => { %>
                                                         <option value="<%= category._id %>"
                                                             <% if (category._id.toString() === voucher?.category?._id.toString()) { %>
@@ -76,7 +79,7 @@
                                                 </select>
                                             </div>
                                             <div class="form-group">
-                                                <label>Nominal</label>
+                                                <label>Nominal <span class="text-danger">*</span></label>
                                                 <div class="select2-purple">
                                                     <select
                                                         name="nominals"
@@ -110,7 +113,9 @@
                                                     placeholder="thumbnail"
                                                 />
                                                 <br />
-                                                <img src="http://localhost:3000/uploads/<%= voucher.thumbnail %>" style="width: 10%; height: 10%;" id="preview" />
+                                                <% if (voucher.thumbnail) { %>
+                                                    <img src="http://localhost:3000/uploads/<%= voucher.thumbnail %>" style="width: 10%; height: 10%;" id="preview" />
+                                                <% } %>
                                             </div>
                                         </div>
                                         <!-- /.card-body -->
