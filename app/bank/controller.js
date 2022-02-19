@@ -1,4 +1,5 @@
 const Bank = require("./model");
+const { validationResult } = require("express-validator");
 
 module.exports = {
     index: async (req, res) => {
@@ -37,6 +38,16 @@ module.exports = {
 
     actionCreate: async (req, res) => {
         try {
+            const errors = validationResult(req);
+
+            if (!errors.isEmpty()) {
+                return res.render("admin/banks/create", {
+                    name: req.session.user.name,
+                    active: "bank",
+                    errors: errors.array(),
+                });
+            }
+
             const { name, bankName, accountNumber } = req.body;
 
             let bank = await Bank({ name, bankName, accountNumber });
@@ -73,6 +84,19 @@ module.exports = {
     actionEdit: async (req, res) => {
         try {
             const { id } = req.params;
+            const bank = await Bank.findOne({ _id: id });
+
+            const errors = validationResult(req);
+
+            if (!errors.isEmpty()) {
+                return res.render("admin/banks/edit", {
+                    bank,
+                    name: req.session.user.name,
+                    active: "bank",
+                    errors: errors.array(),
+                });
+            }
+
             const { name, bankName, accountNumber } = req.body;
 
             await Bank.findOneAndUpdate({ _id: id }, { name, bankName, accountNumber });
