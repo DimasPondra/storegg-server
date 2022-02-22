@@ -14,11 +14,12 @@ const {
 const multer = require("multer");
 const os = require("os");
 const { isLoginPlayer } = require("../middleware/auth");
+const { validationCreate } = require("../transaction/validation");
 
 router.get("/landing-page", landingPage);
 router.get("/:id/detail", detailPage);
 router.get("/categories", category);
-router.post("/checkout", isLoginPlayer, checkout);
+router.post("/checkout", isLoginPlayer, validationCreate, checkout);
 router.get("/history", isLoginPlayer, history);
 router.get("/history/:id/detail", isLoginPlayer, detailHistory);
 router.get("/dashboard", isLoginPlayer, dashboard);

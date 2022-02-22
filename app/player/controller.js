@@ -8,6 +8,7 @@ const Transaction = require("../transaction/model");
 const path = require("path");
 const fs = require("fs");
 const config = require("../../config");
+const { validationResult } = require("express-validator");
 
 module.exports = {
     landingPage: async (req, res) => {
@@ -50,6 +51,15 @@ module.exports = {
 
     checkout: async (req, res) => {
         try {
+            const errors = validationResult(req);
+
+            if (!errors.isEmpty()) {
+                return res.status(500).json({
+                    message: "Something wrong",
+                    errors: errors.array(),
+                });
+            }
+
             const { accountUser, name, nominal, voucher, payment, bank } = req.body;
 
             const res_voucher = await Voucher.findOne({ _id: voucher })
