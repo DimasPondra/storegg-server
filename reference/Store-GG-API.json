@@ -1,0 +1,106 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Store-GG-API",
+    "version": "1.0",
+    "contact": {
+      "name": "Dimas Pondra Oktafianto",
+      "email": "dimaspondrao@gmail.com"
+    },
+    "description": "API Store GG"
+  },
+  "servers": [
+    {
+      "url": "http://storegg-backend.dimasoktafianto.my.id/api/v1",
+      "description": "production"
+    }
+  ],
+  "paths": {
+    "/SignUp": {
+      "post": {
+        "summary": "Sign Up",
+        "operationId": "post-SignUp",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "examples": {
+                  "Success": {
+                    "value": {}
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Authentication"
+        ],
+        "description": "Endpoint sign up player account",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "default": "application-json"
+            },
+            "in": "header",
+            "name": "Accept",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "username": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "phoneNumber": {
+                    "type": "string"
+                  },
+                  "avatar": {
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "name",
+                  "username",
+                  "email",
+                  "password",
+                  "phoneNumber"
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {}
+  },
+  "tags": [
+    {
+      "name": "Authentication"
+    },
+    {
+      "name": "Player"
+    }
+  ]
+}
