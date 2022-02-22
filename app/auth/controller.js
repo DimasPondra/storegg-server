@@ -4,11 +4,21 @@ const fs = require("fs");
 const config = require("../../config");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const { validationResult } = require("express-validator");
 
 module.exports = {
     signup: async (req, res, next) => {
         try {
-            const { name, username, email, password } = req.body;
+            const errors = validationResult(req);
+
+            if (!errors.isEmpty()) {
+                return res.status(500).json({
+                    message: "Something wrong",
+                    errors: errors.array(),
+                });
+            }
+
+            const { name, username, email, password, phoneNumber } = req.body;
 
             const checkPlayer = await Player.findOne({ email: email });
 
@@ -34,6 +44,7 @@ module.exports = {
                             username,
                             email,
                             password,
+                            phoneNumber,
                             avatar: filename,
                         });
 
@@ -58,6 +69,7 @@ module.exports = {
                     username,
                     email,
                     password,
+                    phoneNumber,
                 });
 
                 await player.save();
