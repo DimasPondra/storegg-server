@@ -95,13 +95,13 @@ module.exports = {
             const player = await Player.findOne({ email: email });
 
             if (!player) {
-                return res.status(403).json({ message: "email is wrong" });
+                return res.status(403).json({ message: "email or password is wrong" });
             }
 
             const checkPassword = bcrypt.compareSync(password, player.password);
 
             if (!checkPassword) {
-                return res.status(403).json({ message: "password is wrong" });
+                return res.status(403).json({ message: "email or password is wrong" });
             }
 
             const token = jwt.sign(
