@@ -16,7 +16,7 @@
     }
   ],
   "paths": {
-    "/SignUp": {
+    "/auth/SignUp": {
       "post": {
         "summary": "Sign Up",
         "operationId": "post-SignUp",
@@ -89,7 +89,8 @@
             }
           }
         }
-      }
+      },
+      "parameters": []
     }
   },
   "components": {
